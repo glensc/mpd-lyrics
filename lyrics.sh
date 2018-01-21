@@ -20,7 +20,7 @@ save_id3_lyrics() {
 	local file="$1" lyrics="$2" t=$(mktemp)
 
 	echo "$lyrics" > "$t"
-	eyeD3-py3 --preserve-file-times --add-lyrics="$t" "$file"
+	eyeD3-py3 --preserve-file-times --add-lyrics="$t" "$file" > /dev/null
 	rm "$t"
 }
 
@@ -40,7 +40,7 @@ get_lyrics() {
 		lyrics=$(echo "$lyrics" | grep -v "Sorry, We don't have lyrics for this song yet.")
 
 		if [ -n "$lyrics" ]; then
-			save_id3_lyrics "$file" "$lyrics" >&2
+			save_id3_lyrics "$file" "$lyrics"
 		fi
 	fi
 
