@@ -3,8 +3,8 @@
 
 : ${MPD_HOST=localhost}
 
-artist=$(mpc -h $MPD_HOST -f %artist% | head -n 1)
-title=$(mpc -h $MPD_HOST -f %title% | head -n 1)
+artist=$(mpc -h $MPD_HOST -f %artist% current)
+title=$(mpc -h $MPD_HOST -f %title% current)
 song=$(curl -s --get "https://makeitpersonal.co/lyrics" --data-urlencode "artist=$artist" --data-urlencode "title=$title")
 
 printf "%s - %s\n%s" "$artist" "$title" "$song"
