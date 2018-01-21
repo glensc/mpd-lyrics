@@ -3,11 +3,10 @@
 
 set -e
 
-: ${MPD_HOST=localhost}
 : ${MPD_LIBRARY="$HOME/Music"}
 
 mpc_query() {
-	mpc -h "$MPD_HOST" -f "$1" current
+	mpc -f "$1" current
 }
 
 # obtain lyrics from mp3 file
