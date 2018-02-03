@@ -1,5 +1,4 @@
 #!/bin/sh
-printf "Content-Type: text/plain; charset=utf-8\r\n\r\n"
 
 set -e
 
@@ -21,7 +20,7 @@ from mutagen.id3 import ID3
 try:
 	print ID3(sys.argv[1]).getall("USLT")[0]
 except IndexError:
-	print "Lyrics not embedded into file"
+	print "Lyrics not embedded into mp3 file"
 	pass
 
 ' "$file"
@@ -33,4 +32,7 @@ file="$MPD_LIBRARY"/$(mpc_query %file%)
 
 lyrics=$(id3_lyrics "$file")
 
+printf "Content-Type: text/plain; charset=utf-8\r\n"
+printf "Refresh: 60"
+printf "\r\n"
 printf "%s - %s\n%s\n" "$artist" "$title" "$lyrics"
