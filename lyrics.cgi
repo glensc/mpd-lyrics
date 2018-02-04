@@ -6,9 +6,15 @@ from mutagen.id3 import ID3
 
 client = mpd.MPDClient()
 client.connect("/run/mpd/socket", 6600)
-status = client.status()
+music_directory = '/var/lib/mpd/music'
+
 song = client.currentsong()
 
+# get lyrics first, it may take time on slow RPI1 so the Refresh gets out of sync
+song_path = os.path.join(music_directory, song['file'])
+lyrics = ID3(song_path).getall("USLT")[0]
+
+status = client.status()
 if 'time' in status:
     current, total = status['time'].split(':')
     refresh = int(total) - int(current)
@@ -21,14 +27,11 @@ print(
     "Refresh: %(refresh)s\r\n"
     "\r\n"
     "%(artist)s - %(title)s\n"
+    "%(lyrics)s"
     % {
         'artist': song['artist'],
         'title' : song['title'],
         'refresh': refresh,
+        'lyrics': lyrics,
     }
 )
-
-music_directory = '/var/lib/mpd/music'
-song_path = os.path.join(music_directory, song['file'])
-print(song_path)
-print(ID3(song_path).getall("USLT")[0])
