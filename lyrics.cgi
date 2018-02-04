@@ -1,13 +1,13 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 
-import mpd, os
+import os
+import mpd
+from mutagen.id3 import ID3
 
 client = mpd.MPDClient()
 client.connect("/run/mpd/socket", 6600)
 status = client.status()
 song = client.currentsong()
-from pprint import pprint
-pprint(status)
 
 if 'time' in status:
     current, total = status['time'].split(':')
@@ -28,11 +28,7 @@ print(
     }
 )
 
-try:
-    from mutagen.id3 import ID3
-    music_directory = client.config()
-    song_path = os.path.join(music_directory, song['file'])
-    print(ID3(song_path).getall("USLT")[0])
-except:
-    print("Lyrics not embedded into mp3 file")
-
+music_directory = client.config()
+song_path = os.path.join(music_directory, song['file'])
+print(song_path)
+print(ID3(song_path).getall("USLT")[0])
