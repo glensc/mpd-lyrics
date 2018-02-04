@@ -28,7 +28,7 @@ print(
     }
 )
 
-music_directory = client.config()
+music_directory = '/var/lib/mpd/music'
 song_path = os.path.join(music_directory, song['file'])
 print(song_path)
 print(ID3(song_path).getall("USLT")[0])
