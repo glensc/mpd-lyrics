@@ -48,7 +48,7 @@ get_lyrics() {
 
 artist=$(mpc current -p 6600 -h localhost -f %artist%)
 title=$(mpc current -p 6600 -h localhost -f %title%)
-file="$MPD_LIBRARY"/$(mpc current -p 6601 -h localhost -f %file%)
+file="$MPD_LIBRARY"/$(mpc current -p 6600 -h localhost -f %file%)
 
 lyrics=$(get_lyrics "$file" "$artist" "$title")
 
